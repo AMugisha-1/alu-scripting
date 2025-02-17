@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/python3
 """
 Function that queries the Reddit API and prints the titles
@@ -25,3 +26,7 @@ def top_ten(subreddit):
             print(title)
     else:
         print(None)
+=======
+
+
+>>>>>>> b6d5b41b5296b0ec795c32b0dc2c57b53fe21104
