@@ -4,6 +4,8 @@ Reddit API Query Script
 
 This script queries the Reddit API and prints the titles of the first
 10 hot posts listed for a given subreddit.
+
+If the subreddit is invalid, it prints 'None'.
 """
 
 import requests
@@ -15,38 +17,40 @@ def top_ten(subreddit):
 
     If the subreddit is invalid or has no posts, it prints 'None'.
     """
+    if not subreddit or not isinstance(subreddit, str):
+        print("None")
+        return
+
     # Define the base API URL
-    base_url = 'https://www.reddit.com'
-    api_uri = f'{base_url}/r/{subreddit}/hot.json'
+    base_url = "https://www.reddit.com"
+    api_uri = f"{base_url}/r/{subreddit}/hot.json"
 
-    # Set a User-Agent to avoid being blocked
-    user_agent = {'User-Agent': 'Python/requests'}
-    payload = {'limit': '10'}  # Set query parameters
+    # Set a custom User-Agent to avoid being blocked by Reddit
+    user_agent = {"User-Agent": "CustomRedditScript/1.0"}
+    payload = {"limit": "10"}  # Fetch 10 posts
 
-    # Request data from Reddit API
+    # Make the GET request with no redirects
     res = requests.get(api_uri, headers=user_agent,
                        params=payload, allow_redirects=False)
 
-    # Handle API response errors
+    # Check if subreddit is invalid
     if res.status_code != 200:
-        print('None')
+        print("None")
         return
 
-    # Parse JSON response
     try:
         res_json = res.json()
 
-        # Check if the subreddit is invalid or has no posts
-        if ('data' not in res_json or
-                'children' not in res_json['data'] or
-                not res_json['data']['children']):
-            print('None')
+        # Validate JSON structure
+        posts = res_json.get("data", {}).get("children", [])
+        if not posts:
+            print("None")
             return
 
-        # Print each hot post title
-        for post in res_json['data']['children'][:10]:
-            print(post['data'].get('title', 'None'))
+        # Print the titles of the first 10 hot posts
+        for post in posts[:10]:
+            print(post["data"].get("title", "None"))
 
     except ValueError:
-        print('None')
+        print("None")
 
