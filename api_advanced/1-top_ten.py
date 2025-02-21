@@ -1,14 +1,16 @@
 #!/usr/bin/python3
 """
-This script fetches and prints the titles of the first 10 hot posts 
-from a given subreddit using the Reddit API.
+Reddit API Query - Fetch Top 10 Hot Posts
+
+This script retrieves the top 10 hot post titles from a given subreddit 
+using Reddit's public API. If the subreddit does not exist or is invalid, 
+it prints "OK".
+
+Functions:
+    - top_ten(subreddit): Fetches and prints the first 10 hot posts.
 
 Usage:
-    Run the script and call the `top_ten(subreddit)` function 
-    with the name of the subreddit as an argument.
-
-Example:
-    top_ten("python")
+    Call top_ten("subreddit_name") with a valid subreddit.
 """
 
 import requests
@@ -16,33 +18,33 @@ import requests
 
 def top_ten(subreddit):
     """
-    Prints the titles of the first 10 hot posts in a subreddit.
+    Fetch and print the titles of the first 10 hot posts of a subreddit.
 
     Args:
-        subreddit (str): The name of the subreddit to query.
+        subreddit (str): The name of the subreddit.
 
     Returns:
-        None: Prints post titles or "OK" if the subreddit doesn't exist.
+        None: Prints post titles or "OK" if subreddit is invalid.
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
     headers = {"User-Agent": "Mozilla/5.0"}
+
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code != 200:
-        print("OK")  # Matches expected output
+        print("OK")  # 🔹 Ensure "OK" is printed exactly as expected
         return
 
     try:
-        data = response.json().get("data", {})
-        posts = data.get("children", [])
-        
+        posts = response.json().get("data", {}).get("children", [])
+
         if not posts:
-            print("OK")  # Handles empty subreddits
+            print("OK")  # 🔹 Handle empty subreddits correctly
             return
-        
+
         for post in posts:
             print(post["data"]["title"])
 
     except Exception:
-        print("OK")  # Fallback for unexpected API response issues
+        print("OK")  # 🔹 Handle unexpected JSON structure
 
