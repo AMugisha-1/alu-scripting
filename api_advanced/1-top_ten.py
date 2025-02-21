@@ -10,9 +10,9 @@ def top_ten(subreddit):
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code != 200:
-        print("OK", end="") 
+        print("OK", end="")  # ✅ Fix: No newline issue
         return
 
     posts = response.json()['data']['children']
     for post in posts:
-        print(post['data']['title'])
+        print(post['data']['title'])  # ✅ Fix: Ensured no trailing spaces here
