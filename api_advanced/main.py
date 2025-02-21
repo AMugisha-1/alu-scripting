@@ -1,12 +1,7 @@
-#!/usr/bin/python3
-""" 1-main.py """
+import importlib
 
-import sys
-from 1-top_ten import 1-top_ten  # Importing your function
+# Load the module dynamically
+top_ten_module = importlib.import_module("1-top_ten")
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
-    else:
-       1-top_ten(sys.argv[1])
-
+# Call the function
+top_ten_module.top_ten("programming")
