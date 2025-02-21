@@ -10,7 +10,7 @@ def top_ten(subreddit):
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code != 200:
-        print("OK", end="")  # ✅ Fix: Ensures "OK" is exactly 2 chars long
+        print("OK", end="") 
         return
 
     posts = response.json()['data']['children']
