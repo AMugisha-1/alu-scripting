@@ -2,7 +2,7 @@
 """ 1-main.py """
 
 import sys
-from 1-top_ten import top_ten  # Importing your function
+from top_ten import top_ten  # Importing your function
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
